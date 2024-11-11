@@ -56,14 +56,9 @@ struct SetCardsView: View {
             NavigationLink {
                 CardDetailView(card: card)
             } label: {
-                AsyncImage(url: card.images.small) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(height: 167)
+                RemoteImageView(card.images.small)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 167)
             }
         }
     }

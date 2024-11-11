@@ -54,13 +54,8 @@ struct CollectionView: View {
             NavigationLink {
                 CardDetailView(card: card)
             } label: {
-                AsyncImage(url: card.images.small) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    ProgressView()
-                }
+                RemoteImageView(card.images.small)
+                .aspectRatio(contentMode: .fit)
                 .frame(height: 167)
             }
         }

@@ -31,6 +31,8 @@
 		DA5EEC862CE0C83900BE863C /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EEC852CE0C83900BE863C /* CardDetailView.swift */; };
 		DA9C3AD62CE16D7C009C7621 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3AD52CE16D7C009C7621 /* CollectionView.swift */; };
 		DA9C3AD82CE16DD7009C7621 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3AD72CE16DD7009C7621 /* CollectionViewModel.swift */; };
+		DAD26AB32CE279B2004942C8 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD26AB22CE279B2004942C8 /* RemoteImageView.swift */; };
+		DAD26AB52CE27A1C004942C8 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD26AB42CE27A1C004942C8 /* UIImageExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,8 @@
 		DA5EEC852CE0C83900BE863C /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
 		DA9C3AD52CE16D7C009C7621 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		DA9C3AD72CE16DD7009C7621 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		DAD26AB22CE279B2004942C8 /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
+		DAD26AB42CE27A1C004942C8 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +149,7 @@
 		DA3B95CD2CDFFDAD00C1AC8E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DAD26AB12CE279A6004942C8 /* Shared */,
 				DA152EC42CE0D98B00C41E0C /* Scan */,
 				DA3B95BF2CDFF9C100C1AC8E /* MainView.swift */,
 				DA3B95CF2CDFFDF500C1AC8E /* BrowseView.swift */,
@@ -170,6 +175,7 @@
 			children = (
 				DA3B95D22CE0009D00C1AC8E /* ColorExtension.swift */,
 				DA3B95E52CE026BF00C1AC8E /* URLSessionExtension.swift */,
+				DAD26AB42CE27A1C004942C8 /* UIImageExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -181,6 +187,14 @@
 				DA3B95E12CE01EFA00C1AC8E /* setCards.json */,
 			);
 			path = Responses;
+			sourceTree = "<group>";
+		};
+		DAD26AB12CE279A6004942C8 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				DAD26AB22CE279B2004942C8 /* RemoteImageView.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +275,7 @@
 			files = (
 				DA9C3AD62CE16D7C009C7621 /* CollectionView.swift in Sources */,
 				DA3B95C02CDFF9C100C1AC8E /* MainView.swift in Sources */,
+				DAD26AB52CE27A1C004942C8 /* UIImageExtension.swift in Sources */,
 				DA3B95D02CDFFDF500C1AC8E /* BrowseView.swift in Sources */,
 				DA152ECD2CE106CF00C41E0C /* KeyConstants.swift in Sources */,
 				DA3B95BE2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift in Sources */,
@@ -277,6 +292,7 @@
 				DA9C3AD82CE16DD7009C7621 /* CollectionViewModel.swift in Sources */,
 				DA3B95E62CE026BF00C1AC8E /* URLSessionExtension.swift in Sources */,
 				DA5EEC862CE0C83900BE863C /* CardDetailView.swift in Sources */,
+				DAD26AB32CE279B2004942C8 /* RemoteImageView.swift in Sources */,
 				DA152EC82CE0DF6500C41E0C /* ScanViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,14 +15,9 @@ struct CardDetailView: View {
     var body: some View {
         VStack(spacing: 40) {
             VStack(spacing: 35) {
-                AsyncImage(url: card.images.large) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(height: 280)
+                RemoteImageView(card.images.large)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 280)
                 .overlay(
                     RoundedRectangle(cornerRadius: 22)
                         .fill(

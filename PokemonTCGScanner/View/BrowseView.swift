@@ -66,28 +66,23 @@ struct BrowseView: View {
                     NavigationLink {
                         SetCardsView(model: model, setId: id, setName: name)
                     } label: {
-                        AsyncImage(url: imageUrl) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 150)
-                                .onAppear {
-                                    withAnimation {
-                                        setOpacity = 1
-                                        setOffset = 0
-                                    }
+                        RemoteImageView(imageUrl)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 150)
+                            .onAppear {
+                                withAnimation {
+                                    setOpacity = 1
+                                    setOffset = 0
                                 }
-                                .onDisappear {
-                                    withAnimation {
-                                        setOpacity = 0
-                                        setOffset = -10
-                                    }
+                            }
+                            .onDisappear {
+                                withAnimation {
+                                    setOpacity = 0
+                                    setOffset = -10
                                 }
-                                .opacity(setOpacity)
-                                .offset(y: setOffset)
-                        } placeholder: {
-                            
-                        }
+                            }
+                            .opacity(setOpacity)
+                            .offset(y: setOffset)
                     }
                 )
         }
