@@ -10,9 +10,11 @@ import SwiftUI
 struct CardDetailView: View {
     let card: Card
     
+    @State var off: CGFloat = -400
+    
     var body: some View {
         VStack(spacing: 40) {
-            VStack(spacing: 20) {
+            VStack(spacing: 35) {
                 AsyncImage(url: card.images.large) { image in
                     image
                         .resizable()
@@ -21,10 +23,45 @@ struct CardDetailView: View {
                     ProgressView()
                 }
                 .frame(height: 280)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 22)
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.clear,
+                                    Color.clear,
+                                    Color.white.opacity(0.2),
+                                    Color.white.opacity(0.6),
+                                    Color.white.opacity(0.8),
+                                    Color.white.opacity(0.6),
+                                    Color.white.opacity(0.2),
+                                    Color.clear,
+                                    Color.clear
+                                ]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(height: 1000)
+                        .rotationEffect(.degrees(-35))
+                        .contrast(1.2)
+                        .blendMode(.overlay)
+                        .offset(x: off)
+                        .onAppear {
+                            withAnimation(.spring(duration: 3.2).repeatForever(autoreverses: false)) {
+                                off = 400
+                            }
+                        }
+                        .mask {
+                            RoundedRectangle(cornerRadius: 22)
+                                .frame(height: 280)
+                        }
+                )
                 
                 Text(card.name)
                     .font(.system(size: 28, weight: .black))
             }
+
             
             if let cardMarket = card.cardmarket {
                 VStack(spacing: 25) {
@@ -73,10 +110,9 @@ struct CardDetailView: View {
                         Button {
                             UIApplication.shared.open(url)
                         } label: {
-                            RoundedRectangle(cornerRadius: 22)
+                            RoundedRectangle(cornerRadius: 18)
                                 .foregroundStyle(.ultraThinMaterial)
-                                .frame(height: 72)
-                                .padding(.horizontal, 40)
+                                .frame(height: 52)
                                 .overlay(
                                     HStack {
                                         Text("See on TCGPlayer")
@@ -85,17 +121,20 @@ struct CardDetailView: View {
                                     }
                                 )
                         }
+                        .padding(.horizontal, 70)
+                        .padding(.top, 30)
                     }
                 }
             }
             
             Button {
-                // add to collection
+                if !CollectionViewModel.shared.cards.contains(card) {
+                    CollectionViewModel.shared.addCard(card)
+                }
             } label: {
-                RoundedRectangle(cornerRadius: 22)
+                RoundedRectangle(cornerRadius: 18)
                     .foregroundStyle(.ultraThinMaterial)
-                    .frame(height: 72)
-                    .padding(.horizontal, 50)
+                    .frame(height: 52)
                     .overlay(
                         HStack {
                             Text("Add to Collection")
@@ -104,7 +143,8 @@ struct CardDetailView: View {
                         }
                     )
             }
-            .padding(.top, 30)
+            .padding(.horizontal, 70)
+            .offset(y: -10)
             
             Spacer()
         }

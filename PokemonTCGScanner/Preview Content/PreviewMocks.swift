@@ -23,6 +23,15 @@ struct PreviewMocks {
         
     }()
     
+    static let collectionViewMock: CollectionViewModel = {
+        let encodedSetCards = try! Data(contentsOf: Bundle.main.url(forResource: "setCards", withExtension: "json")!)
+        
+        let decoder = JSONDecoder()
+        let decodedSetCards = try! decoder.decode(CardBody.self, from: encodedSetCards)
+
+        return CollectionViewModel(cards: decodedSetCards.data)
+        
+    }()
     
     
 }

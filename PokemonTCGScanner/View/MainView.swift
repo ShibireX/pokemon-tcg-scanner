@@ -18,8 +18,13 @@ struct MainView: View {
                 }
             BrowseView(model: PreviewMocks.browseViewMock)
                 .tabItem {
-                    Image(systemName: "square.stack.3d.down.right")
+                    Image(systemName: "text.magnifyingglass.rtl")
                     Text("Browse")
+                }
+            CollectionView()
+                .tabItem {
+                    Image(systemName: "square.stack.3d.down.right")
+                    Text("Collection")
                 }
         }
         .onAppear {
