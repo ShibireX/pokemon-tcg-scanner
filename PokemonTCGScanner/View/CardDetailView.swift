@@ -18,40 +18,42 @@ struct CardDetailView: View {
                 RemoteImageView(card.images.large)
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 280)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 22)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.clear,
-                                    Color.clear,
-                                    Color.white.opacity(0.2),
-                                    Color.white.opacity(0.6),
-                                    Color.white.opacity(0.8),
-                                    Color.white.opacity(0.6),
-                                    Color.white.opacity(0.2),
-                                    Color.clear,
-                                    Color.clear
-                                ]),
-                                startPoint: .leading,
-                                endPoint: .trailing
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 22)
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.clear,
+                                        Color.clear,
+                                        Color.white.opacity(0.2),
+                                        Color.white.opacity(0.6),
+                                        Color.white.opacity(0.8),
+                                        Color.white.opacity(0.6),
+                                        Color.white.opacity(0.2),
+                                        Color.clear,
+                                        Color.clear
+                                    ]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
                             )
-                        )
-                        .frame(height: 1000)
-                        .rotationEffect(.degrees(-35))
-                        .contrast(1.2)
-                        .blendMode(.overlay)
-                        .offset(x: off)
-                        .onAppear {
+                            .frame(height: 1000)
+                            .rotationEffect(.degrees(-35))
+                            .contrast(1.2)
+                            .blendMode(.overlay)
+                            .offset(x: off)
+                            .mask {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .frame(height: 280)
+                            }
+                    )
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             withAnimation(.spring(duration: 3.2).repeatForever(autoreverses: false)) {
                                 off = 400
                             }
                         }
-                        .mask {
-                            RoundedRectangle(cornerRadius: 22)
-                                .frame(height: 280)
-                        }
-                )
+                    }
                 
                 Text(card.name)
                     .font(.system(size: 28, weight: .black))
@@ -100,46 +102,12 @@ struct CardDetailView: View {
                         Spacer()
                     }
                     .font(.system(size: 22, weight: .medium))
-                    
-                    if let url = cardMarket.url {
-                        Button {
-                            UIApplication.shared.open(url)
-                        } label: {
-                            RoundedRectangle(cornerRadius: 18)
-                                .foregroundStyle(.ultraThinMaterial)
-                                .frame(height: 52)
-                                .overlay(
-                                    HStack {
-                                        Text("See on TCGPlayer")
-                                            .font(.system(size: 18, weight: .semibold))
-                                        Image(systemName: "globe")
-                                    }
-                                )
-                        }
-                        .padding(.horizontal, 70)
-                        .padding(.top, 30)
-                    }
                 }
             }
             
-            Button {
-                if !CollectionViewModel.shared.cards.contains(card) {
-                    CollectionViewModel.shared.addCard(card)
-                }
-            } label: {
-                RoundedRectangle(cornerRadius: 18)
-                    .foregroundStyle(.ultraThinMaterial)
-                    .frame(height: 52)
-                    .overlay(
-                        HStack {
-                            Text("Add to Collection")
-                                .font(.system(size: 18, weight: .semibold))
-                            Image(systemName: "plus")
-                        }
-                    )
-            }
-            .padding(.horizontal, 70)
-            .offset(y: -10)
+            Spacer()
+            
+            AddToCollectionView(card: card)
             
             Spacer()
         }
@@ -148,6 +116,54 @@ struct CardDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(hexString: "#1f1f1f"))
     }
+    
+    struct AddToCollectionView: View {
+        let card: Card
+        
+        @StateObject var model = CollectionViewModel.shared
+        
+        var body: some View {
+            VStack(spacing: 15) {
+                Text("Owned")
+                    .font(.system(size: 18, weight: .semibold))
+                
+                HStack(spacing: 0) {
+                    
+                    Button {
+                        if let index = model.cards.firstIndex(where: { $0.id == card.id }) {
+                            model.cards.remove(at: index)
+                        }
+                    } label: {
+                        RoundedRectangle(cornerRadius: 18)
+                            .foregroundStyle(.ultraThinMaterial)
+                            .frame(width: 45, height: 42)
+                            .overlay(Image(systemName: "minus"))
+                            .font(.system(size: 18, weight: .medium))
+                    }
+                    
+                    Text(model.cards.contains(card) ? "1" : "0")
+                        .font(.system(size: 18, weight: .medium))
+                        .monospacedDigit()
+                        .frame(width: 40)
+                    
+                    Button {
+                        if !model.cards.contains(card) {
+                            model.addCard(card)
+                        }
+                    } label: {
+                        RoundedRectangle(cornerRadius: 18)
+                            .foregroundStyle(.ultraThinMaterial)
+                            .frame(width: 45, height: 42)
+                            .overlay(Image(systemName: "plus"))
+                            .font(.system(size: 18, weight: .medium))
+                    }
+                    
+                }
+                
+            }
+        }
+    }
+    
 }
 
 #Preview {

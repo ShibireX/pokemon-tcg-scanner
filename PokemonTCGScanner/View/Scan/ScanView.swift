@@ -34,13 +34,6 @@ struct ScanView: View {
                 Spacer()
                 Button {
                     shouldCapturePhoto = true
-                    /*
-                    DispatchQueue.main.async(qos: .background) {
-                        Task {
-                            await model.identifyCard(uiImage: UIImage(named: "testMon")!)
-                        }
-                    }
-                     */
                 } label: {
                     Image(systemName: "camera.aperture")
                         .font(.system(size: 70))
@@ -55,7 +48,7 @@ struct ScanView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Scan cards")
-                        .font(.system(size: 26, weight: .medium))
+                        .font(.system(size: 32, weight: .medium))
                         .foregroundStyle(.white)
                 }
             }

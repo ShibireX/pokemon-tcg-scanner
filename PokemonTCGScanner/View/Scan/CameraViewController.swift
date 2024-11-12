@@ -17,17 +17,6 @@ class CameraViewController: UIViewController {
     var capturedPhoto: ((UIImage?) -> Void)?
 
     var currentCameraPosition: AVCaptureDevice.Position = .back
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Start the capture session if it’s not already running
-        if !captureSession.isRunning {
-            DispatchQueue.global(qos: .background).async {
-                self.captureSession.startRunning()
-            }
-        }
-    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -59,10 +48,6 @@ class CameraViewController: UIViewController {
         previewLayer.videoGravity = .resizeAspectFill
         previewLayer.frame = view.bounds
         view.layer.addSublayer(previewLayer)
-
-        DispatchQueue.global(qos: .background).async {
-            self.captureSession.startRunning()
-        }
     }
 
     func setupCamera(_ position: AVCaptureDevice.Position) {
@@ -98,6 +83,7 @@ class CameraViewController: UIViewController {
         }
         
         captureSession.commitConfiguration()
+        captureSession.startRunning()
     }
 
     func camera(with position: AVCaptureDevice.Position) -> AVCaptureDevice? {

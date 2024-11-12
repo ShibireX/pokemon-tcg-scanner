@@ -16,7 +16,7 @@ struct MainView: View {
                     Image(systemName: "camera.aperture")
                     Text("Scan")
                 }
-            BrowseView(model: PreviewMocks.browseViewMock)
+            BrowseView()
                 .tabItem {
                     Image(systemName: "text.magnifyingglass.rtl")
                     Text("Browse")

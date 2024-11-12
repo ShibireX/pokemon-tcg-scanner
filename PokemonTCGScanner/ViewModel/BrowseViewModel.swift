@@ -12,7 +12,9 @@ class BrowseViewModel: ObservableObject {
     @Published var sets: [Set] = []
     
     init() {
-        
+        Task {
+            try? await fetchSets()
+        }
     }
     
     init(sets: [Set]) {

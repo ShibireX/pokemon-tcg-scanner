@@ -33,17 +33,12 @@ struct BrowseView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Browse cards")
-                        .font(.system(size: 26, weight: .medium))
+                        .font(.system(size: 32, weight: .medium))
                         .foregroundStyle(.white)
                 }
             }
         }
         .tint(.white)
-        .task {
-            if model.sets.isEmpty {
-                try? await model.fetchSets()
-            }
-        }
     }
     
     struct SetView: View {
