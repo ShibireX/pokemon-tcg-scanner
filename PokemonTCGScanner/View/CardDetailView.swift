@@ -102,12 +102,15 @@ struct CardDetailView: View {
                         Spacer()
                     }
                     .font(.system(size: 22, weight: .medium))
+                    
+                    if let tcgplayerUrl = card.tcgplayer?.url {
+                        TcgPlayerButton(url: tcgplayerUrl)
+                    }
                 }
             }
-            
-            Spacer()
-            
+                        
             AddToCollectionView(card: card)
+                .offset(y: -15)
             
             Spacer()
         }
@@ -117,13 +120,39 @@ struct CardDetailView: View {
         .background(Color.mainColor)
     }
     
+    struct TcgPlayerButton: View {
+        let url: URL
+        
+        var body: some View {
+            VStack(spacing: 10) {
+                Text("Buy")
+                    .font(.system(size: 18, weight: .semibold))
+                
+                Button {
+                    UIApplication.shared.open(url)
+                } label: {
+                    RoundedRectangle(cornerRadius: 18)
+                        .foregroundStyle(.white.opacity(0.4).blendMode(.overlay))
+                        .frame(width: 110, height: 55)
+                        .padding(.horizontal, 30)
+                        .overlay(
+                            Image("tcgPlayerLogo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 30)
+                        )
+                }
+            }
+        }
+    }
+    
     struct AddToCollectionView: View {
         let card: Card
         
         @StateObject var model = CollectionViewModel.shared
         
         var body: some View {
-            VStack(spacing: 15) {
+            VStack(spacing: 10) {
                 Text("Owned")
                     .font(.system(size: 18, weight: .semibold))
                 
@@ -135,7 +164,7 @@ struct CardDetailView: View {
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 18)
-                            .foregroundStyle(.black.opacity(0.4).blendMode(.overlay))
+                            .foregroundStyle(.white.opacity(0.4).blendMode(.overlay))
                             .frame(width: 45, height: 42)
                             .overlay(Image(systemName: "minus"))
                             .font(.system(size: 18, weight: .medium))
@@ -152,7 +181,7 @@ struct CardDetailView: View {
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 18)
-                            .foregroundStyle(.black.opacity(0.4).blendMode(.overlay))
+                            .foregroundStyle(.white.opacity(0.4).blendMode(.overlay))
                             .frame(width: 45, height: 42)
                             .overlay(Image(systemName: "plus"))
                             .font(.system(size: 18, weight: .medium))
@@ -167,5 +196,5 @@ struct CardDetailView: View {
 }
 
 #Preview {
-    CardDetailView(card: Card(id: "0", name: "Venusaur EX", images: Card.SetImages(small: URL(string: "https://images.pokemontcg.io/xy1/1.png")!, large: URL(string: "https://images.pokemontcg.io/xy1/1_hires.png")!), cardmarket: Card.CardMarket(url: URL(string: "example.com"), prices: Card.CardMarket.CardPrices(lowPrice: 2.42, averageSellPrice: 10.24, trendPrice: 20.41))))
+    CardDetailView(card: Card(id: "0", name: "Venusaur EX", images: Card.SetImages(small: URL(string: "https://images.pokemontcg.io/xy1/1.png")!, large: URL(string: "https://images.pokemontcg.io/xy1/1_hires.png")!), cardmarket: Card.CardMarket(url: URL(string: "example.com"), prices: Card.CardMarket.CardPrices(lowPrice: 2.42, averageSellPrice: 10.24, trendPrice: 20.41)), tcgplayer: Card.TcgPlayer(url: URL(string: "example.com"))))
 }

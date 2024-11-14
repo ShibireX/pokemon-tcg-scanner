@@ -136,7 +136,7 @@ struct BrowseView: View {
                     .padding(.horizontal, 40)
                     .background(
                         RoundedRectangle(cornerRadius: 16)
-                            .foregroundStyle(.black.opacity(0.4))
+                            .foregroundStyle(.white.opacity(0.4))
                             .blendMode(.overlay)
                             .overlay(
                                 HStack {
