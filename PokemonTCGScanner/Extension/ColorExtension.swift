@@ -8,6 +8,9 @@
 import SwiftUI
 
 extension Color {
+    
+    static let mainColor = Color(hexString: "#111526")
+    
     init(hexString: String) {
         var hexSanitized = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")

@@ -25,33 +25,70 @@ struct ScanView: View {
     @State var shouldCapturePhoto: Bool = false
     @State var capturedPhoto: UIImage?
     @State var showCardDetailView: Bool = false
+    @State var showHint: Bool = false
+    @State var hintOffset: CGFloat = 0
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                Spacer()
-                CameraFrameView(shouldCapturePhoto: $shouldCapturePhoto, capturedImage: $capturedPhoto)
-                Spacer()
-                Button {
-                    shouldCapturePhoto = true
-                } label: {
-                    Image(systemName: "camera.aperture")
-                        .font(.system(size: 70))
+                HStack {
+                    Spacer()
+                    VStack {
+                        Button {
+                            withAnimation(.spring(duration: 1)) {
+                                showHint = true
+                                
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                                withAnimation {
+                                    showHint = false
+                                }
+                            }
+                        } label: {
+                            Image(systemName:"info.circle.fill")
+                                .font(.system(size: 22, weight: .medium))
+                                .foregroundStyle(.white)
+                        }
+                    }
                 }
-                .disabled(shouldCapturePhoto)
-                .opacity(shouldCapturePhoto ? 0.2 : 1)
+                .padding(.trailing, 40)
+                .padding(.bottom, 20)
+                                
+                CameraFrameView(shouldCapturePhoto: $shouldCapturePhoto, capturedImage: $capturedPhoto, showHint: $showHint)
+                Spacer()
+                
+                ZStack(alignment: .bottomTrailing) {
+                    Button {
+                        shouldCapturePhoto = true
+                    } label: {
+                        Image(systemName: "camera.aperture")
+                            .font(.system(size: 70, weight: .light))
+                    }
+                    .disabled(shouldCapturePhoto || showHint)
+                    .opacity(shouldCapturePhoto ? 0.2 : 1)
+                    
+                    if showHint {
+                        Image(systemName: "hand.point.up.left.fill")
+                            .font(.system(size: 60))
+                            .transition(.opacity)
+                            .shadow(color: .black, radius: 10)
+                            .offset(x: 20 - hintOffset, y: 40 - hintOffset)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
+                                        hintOffset = 10
+                                    }
+                                }
+                            }
+                    }
+                }
+                
+                Spacer()
                 Spacer()
             }
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(hexString: "#1f1f1f"))
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("Scan cards")
-                        .font(.system(size: 32, weight: .medium))
-                        .foregroundStyle(.white)
-                }
-            }
+            .background(Color.mainColor)
             .onChange(of: capturedPhoto) {
                 if let capturedPhoto = capturedPhoto {
                     DispatchQueue.main.async(qos: .background) {
@@ -76,6 +113,11 @@ struct ScanView: View {
                         }
                 }
             }
+            .onTapGesture {
+                withAnimation {
+                    showHint = false
+                }
+            }
         }
         .tint(.white)
     }
@@ -85,6 +127,7 @@ struct ScanView: View {
     struct CameraFrameView: View {
         @Binding var shouldCapturePhoto: Bool
         @Binding var capturedImage: UIImage?
+        @Binding var showHint: Bool
         
         @State private var isCameraAuthorized = false
         @State private var showAlert = false
@@ -93,7 +136,7 @@ struct ScanView: View {
             VStack {
                 RoundedRectangle(cornerRadius: 22)
                     .inset(by: -1)
-                    .stroke(.white.blendMode(.overlay), lineWidth: 2)
+                    .stroke(.white.blendMode(.overlay), lineWidth: 1)
                     .foregroundStyle(.clear)
                     .aspectRatio(1/sqrt(2), contentMode: .fit)
                     .overlay(
@@ -114,13 +157,22 @@ struct ScanView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: 22))
                                     }
                                 }
+                                
+                                if showHint {
+                                    Image("latiasExample")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .scaleEffect(0.85)
+                                        .transition(.scale.combined(with: .opacity))
+                                }
+                                
                             }
                         }
                     )
                     .padding(.horizontal, 40)
             }
             .onAppear {
-                checkCameraPermission()
+                //checkCameraPermission()
             }
             .alert(isPresented: $showAlert) {
                 Alert(

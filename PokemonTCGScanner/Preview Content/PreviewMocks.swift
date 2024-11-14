@@ -19,7 +19,7 @@ struct PreviewMocks {
         
         decodedSets.data[0].cards = decodedSetCards.data
         
-        return BrowseViewModel(sets: decodedSets.data)
+        return BrowseViewModel(sets: decodedSets.data, cards: decodedSetCards.data)
         
     }()
     

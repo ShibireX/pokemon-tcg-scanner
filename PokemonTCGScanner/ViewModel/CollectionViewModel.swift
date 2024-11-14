@@ -63,9 +63,7 @@ class CollectionViewModel: ObservableObject {
     
     func fetchCards(cardIds: [String]) async throws {
         let concatenatedString = cardIds.joined(separator: " OR id:")
-        
-        print(concatenatedString)
-        
+                
         let request = await URLRequest.withAuth(apiPath: "https://api.pokemontcg.io/v2/cards?q=id:\(concatenatedString)")
                 
         do {

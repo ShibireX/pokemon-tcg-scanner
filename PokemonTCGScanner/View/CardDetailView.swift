@@ -114,7 +114,7 @@ struct CardDetailView: View {
         .padding()
         .foregroundStyle(.white)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hexString: "#1f1f1f"))
+        .background(Color.mainColor)
     }
     
     struct AddToCollectionView: View {
@@ -135,7 +135,7 @@ struct CardDetailView: View {
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 18)
-                            .foregroundStyle(.ultraThinMaterial)
+                            .foregroundStyle(.black.opacity(0.4).blendMode(.overlay))
                             .frame(width: 45, height: 42)
                             .overlay(Image(systemName: "minus"))
                             .font(.system(size: 18, weight: .medium))
@@ -152,7 +152,7 @@ struct CardDetailView: View {
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 18)
-                            .foregroundStyle(.ultraThinMaterial)
+                            .foregroundStyle(.black.opacity(0.4).blendMode(.overlay))
                             .frame(width: 45, height: 42)
                             .overlay(Image(systemName: "plus"))
                             .font(.system(size: 18, weight: .medium))

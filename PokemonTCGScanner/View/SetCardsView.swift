@@ -33,7 +33,7 @@ struct SetCardsView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hexString: "#1f1f1f"))
+        .background(Color.mainColor)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(setName)
@@ -46,11 +46,15 @@ struct SetCardsView: View {
                 try? await model.fetchSetCards(setId: setId)
             }
         }
+        .ignoresSafeArea(edges: .bottom)
     }
     
     struct CardView: View {
         
         let card: Card
+        
+        @State var opacity: CGFloat = 0
+        @State var offset: CGFloat = -10
         
         var body: some View {
             NavigationLink {
@@ -59,6 +63,20 @@ struct SetCardsView: View {
                 RemoteImageView(card.images.small)
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 167)
+            }
+            .opacity(opacity)
+            .offset(y: offset)
+            .onAppear {
+                withAnimation {
+                    opacity = 1
+                    offset = 0
+                }
+            }
+            .onDisappear {
+                withAnimation {
+                    opacity = 0
+                    offset = -10
+                }
             }
         }
     }

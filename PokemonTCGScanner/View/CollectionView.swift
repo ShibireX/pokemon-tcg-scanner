@@ -18,34 +18,22 @@ struct CollectionView: View {
             VStack {
                 if !model.cards.isEmpty {
                     ScrollView {
-                        LazyVStack(alignment: .leading) {
+                        LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
                             
-                            HStack(spacing: 5) {
-                                Text("My cards")
-                                    .font(.system(size: 26, weight: .medium))
-                                Spacer()
-                                HStack {
-                                    HStack(spacing: 5) {
-                                        Image(systemName: "menucard.fill")
-                                        Text(String(model.cards.count))
-                                    }
-                                    HStack(spacing: 2) {
-                                        Image(systemName: "dollarsign")
-                                        Text(sumCardValues())
+                            Section(header:                             CollectionTypeHeader(model: model)) {
+                                LazyVGrid(columns: gridColumns, spacing: 0) {
+                                    ForEach(model.cards, id: \.id) { card in
+                                        SetCardsView.CardView(card: card)
                                     }
                                 }
-                                .font(.system(size: 16, weight: .semibold))
                             }
                             
-                            LazyVGrid(columns: gridColumns, spacing: 0) {
-                                ForEach(model.cards, id: \.id) { card in
-                                    CardView(card: card)
-                                }
-                            }
+                            // TODO: Wishlist
                             
                         }
                     }
                     .scrollIndicators(.hidden)
+                    .padding(.top, 50)
                 } else {
                     Text("No cards to show here yet")
                         .font(.system(size: 18))
@@ -55,34 +43,47 @@ struct CollectionView: View {
             .foregroundStyle(.white)
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(hexString: "#1f1f1f"))
+            .background(Color.mainColor)
+            .ignoresSafeArea()
         }
         .tint(.white)
     }
     
-    struct CardView: View {
+    struct CollectionTypeHeader: View {
         
-        let card: Card
+        @ObservedObject var model: CollectionViewModel
         
         var body: some View {
-            NavigationLink {
-                CardDetailView(card: card)
-            } label: {
-                RemoteImageView(card.images.small)
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 167)
+            HStack(spacing: 5) {
+                Text("My cards")
+                    .font(.system(size: 26, weight: .medium))
+                Spacer()
+                HStack {
+                    HStack(spacing: 4) {
+                        Image(systemName: "menucard.fill")
+                        Text(String(model.cards.count))
+                    }
+                    HStack(spacing: 2) {
+                        Image(systemName: "dollarsign")
+                        Text(sumCardValues())
+                    }
+                }
+                .font(.system(size: 16, weight: .semibold))
             }
-        }
-    }
-    
-    func sumCardValues() -> String {
-        var value: Float = 0
-        
-        for card in model.cards {
-            value += card.cardmarket?.prices.trendPrice ?? 0
+            .padding(.bottom, 10)
+            .background(Color.mainColor)
         }
         
-        return String(format: "%.2f", value)
+        func sumCardValues() -> String {
+            var value: Float = 0
+            
+            for card in model.cards {
+                value += card.cardmarket?.prices.trendPrice ?? 0
+            }
+            
+            return String(format: "%.2f", value)
+        }
+        
     }
     
 }
