@@ -65,6 +65,7 @@ struct BrowseView: View {
                         }
                     }
                     .padding(.top, currentTab == .sets ? 0 : 15)
+                    .padding(.bottom, 120)
 
                 }
                 .scrollIndicators(.hidden)

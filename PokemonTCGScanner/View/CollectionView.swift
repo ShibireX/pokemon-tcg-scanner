@@ -31,6 +31,7 @@ struct CollectionView: View {
                             // TODO: Wishlist
                             
                         }
+                        .padding(.bottom, 120)
                     }
                     .scrollIndicators(.hidden)
                     .padding(.top, 50)

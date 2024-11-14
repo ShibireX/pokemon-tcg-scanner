@@ -29,7 +29,7 @@ struct MainView: View {
                         Text("Scan")
                     }
                 }
-            BrowseView(model: PreviewMocks.browseViewMock)
+            BrowseView()
                 .overlay(GlassyOverlay())
                 .tabItem {
                     Image(systemName: "text.magnifyingglass.rtl")

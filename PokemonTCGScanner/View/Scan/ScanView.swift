@@ -53,6 +53,7 @@ struct ScanView: View {
                 }
                 .padding(.trailing, 40)
                 .padding(.bottom, 20)
+                .offset(y: 10)
                                 
                 CameraFrameView(shouldCapturePhoto: $shouldCapturePhoto, capturedImage: $capturedPhoto, showHint: $showHint)
                 Spacer()
@@ -172,7 +173,7 @@ struct ScanView: View {
                     .padding(.horizontal, 40)
             }
             .onAppear {
-                //checkCameraPermission()
+                checkCameraPermission()
             }
             .alert(isPresented: $showAlert) {
                 Alert(
