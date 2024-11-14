@@ -18,6 +18,9 @@ struct Card: Decodable, Equatable, Hashable {
     let images: SetImages
     let cardmarket: CardMarket?
     let tcgplayer: TcgPlayer?
+    var types: [String]?
+    
+    var owned: Int?
     
     struct SetImages: Codable, Equatable, Hashable {
         let small: URL
@@ -45,14 +48,16 @@ struct Card: Decodable, Equatable, Hashable {
         case images
         case cardmarket
         case tcgplayer
+        case types
     }
     
-    init(id: String, name: String, images: SetImages, cardmarket: CardMarket?, tcgplayer: TcgPlayer?) {
+    init(id: String, name: String, images: SetImages, cardmarket: CardMarket?, tcgplayer: TcgPlayer?, owned: Int?) {
         self.id = id
         self.name = name
         self.images = images
         self.cardmarket = cardmarket
         self.tcgplayer = tcgplayer
+        self.owned = owned
     }
     
     init(from decoder: Decoder) throws {
@@ -63,7 +68,7 @@ struct Card: Decodable, Equatable, Hashable {
         images = try container.decode(SetImages.self, forKey: .images)
         cardmarket = try container.decodeIfPresent(CardMarket.self, forKey: .cardmarket)
         tcgplayer = try container.decodeIfPresent(TcgPlayer.self, forKey: .tcgplayer)
-
+        types = try container.decodeIfPresent([String].self, forKey: .types)
     }
     
 }

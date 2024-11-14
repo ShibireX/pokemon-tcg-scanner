@@ -9,6 +9,16 @@ import SwiftUI
 
 struct MainView: View {
     
+    @ObservedObject var browseViewModel: BrowseViewModel = BrowseViewModel()
+    
+    enum Tab {
+        case scan
+        case browse
+        case collection
+    }
+    
+    @State private var currentTab: Tab = .browse
+    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -19,30 +29,38 @@ struct MainView: View {
     }
     
     var body: some View {
-        TabView {
-            ScanView()
-                .overlay(GlassyOverlay())
-                .tabItem {
-                    VStack {
-                        Spacer().frame(height: 30)
-                        Image(systemName: "camera.aperture")
-                        Text("Scan")
+        if !browseViewModel.sets.isEmpty && !browseViewModel.cards.isEmpty {
+            TabView(selection: $currentTab) {
+                ScanView()
+                    .overlay(GlassyOverlay().preferredColorScheme(.dark))
+                    .tabItem {
+                        VStack {
+                            Spacer().frame(height: 30)
+                            Image(systemName: "camera.aperture")
+                            Text("Scan")
+                        }
                     }
-                }
-            BrowseView()
-                .overlay(GlassyOverlay())
-                .tabItem {
-                    Image(systemName: "text.magnifyingglass.rtl")
-                    Text("Browse")
-                }
-            CollectionView()
-                .overlay(GlassyOverlay())
-                .tabItem {
-                    Image(systemName: "square.stack.3d.down.right")
-                    Text("Collection")
-                }
+                    .tag(Tab.scan)
+                BrowseView(model: browseViewModel)
+                    .overlay(GlassyOverlay().preferredColorScheme(.dark))
+                    .tabItem {
+                        Image(systemName: "text.magnifyingglass.rtl")
+                        Text("Browse")
+                    }
+                    .tag(Tab.browse)
+                CollectionView()
+                    .overlay(GlassyOverlay().preferredColorScheme(.dark))
+                    .tabItem {
+                        Image(systemName: "square.stack.3d.down.right")
+                        Text("Collection")
+                    }
+                    .tag(Tab.collection)
+            }
+            .tint(.white)
+            
+        } else {
+            LoadingScreenView()
         }
-        .tint(.white)
     }
     
     struct GlassyOverlay: View {

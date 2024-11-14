@@ -24,10 +24,11 @@ struct SetCardsView: View {
                             CardView(card: card)
                         }
                     }
+                    .padding(.bottom, 120)
                 }
                 .scrollIndicators(.hidden)
             } else {
-                ProgressView()
+               LoadingIndicatorView()
             }
             
         }

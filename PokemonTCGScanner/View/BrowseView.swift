@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BrowseView: View {
     
-    @ObservedObject var model = BrowseViewModel()
+    @ObservedObject var model: BrowseViewModel
     
     let setGridColumns = [GridItem(.flexible()), GridItem(.flexible())]
     let cardGridColumns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -191,8 +191,7 @@ struct BrowseView: View {
                         SetCardsView(model: model, setId: id, setName: name)
                     } label: {
                         RemoteImageView(imageUrl)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 150)
+                            .scaledToFit()
                             .onAppear {
                                 withAnimation {
                                     setOpacity = 1
@@ -208,6 +207,7 @@ struct BrowseView: View {
                             .opacity(setOpacity)
                             .offset(y: setOffset)
                     }
+                    .frame(height: 65)
                 )
         }
     }

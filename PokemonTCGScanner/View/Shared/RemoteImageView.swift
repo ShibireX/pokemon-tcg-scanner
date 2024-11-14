@@ -62,9 +62,9 @@ struct RemoteImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } else if loading {
-                ProgressView()
+                LoadingIndicatorView(controlSize: .small)
             } else {
-                ProgressView()
+                LoadingIndicatorView(controlSize: .small)
             }
         }
         .geometryGroup()

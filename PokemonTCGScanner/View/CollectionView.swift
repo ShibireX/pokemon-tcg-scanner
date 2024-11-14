@@ -13,6 +13,20 @@ struct CollectionView: View {
     
     let gridColumns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
+    enum SortMethod {
+        case type
+    }
+    
+    @State var currentSortMethod: SortMethod = .type
+    
+    var sortedCards: [Card] {
+        if currentSortMethod == .type {
+            return model.cards.sorted(by: { $0.types?.first != $1.types?.first } )
+        } else {
+            return model.cards
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -22,7 +36,7 @@ struct CollectionView: View {
                             
                             Section(header:                             CollectionTypeHeader(model: model)) {
                                 LazyVGrid(columns: gridColumns, spacing: 0) {
-                                    ForEach(model.cards, id: \.id) { card in
+                                    ForEach(sortedCards, id: \.id) { card in
                                         SetCardsView.CardView(card: card)
                                     }
                                 }

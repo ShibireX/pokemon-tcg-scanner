@@ -29,6 +29,8 @@
 		DA3B95E82CE02BB200C1AC8E /* VisionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3B95E72CE02BB200C1AC8E /* VisionModel.swift */; };
 		DA3B95EA2CE0326C00C1AC8E /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3B95E92CE0326C00C1AC8E /* ScanView.swift */; };
 		DA5EEC862CE0C83900BE863C /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EEC852CE0C83900BE863C /* CardDetailView.swift */; };
+		DA901D9D2CE64134009235FD /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA901D9C2CE64134009235FD /* LoadingScreenView.swift */; };
+		DA901D9F2CE643E8009235FD /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA901D9E2CE643E8009235FD /* LoadingIndicatorView.swift */; };
 		DA9C3AD62CE16D7C009C7621 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3AD52CE16D7C009C7621 /* CollectionView.swift */; };
 		DA9C3AD82CE16DD7009C7621 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3AD72CE16DD7009C7621 /* CollectionViewModel.swift */; };
 		DAD26AB32CE279B2004942C8 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD26AB22CE279B2004942C8 /* RemoteImageView.swift */; };
@@ -40,6 +42,7 @@
 		DA152EC72CE0DF6500C41E0C /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		DA152ECA2CE1063C00C41E0C /* apiKeys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = apiKeys.json; sourceTree = "<group>"; };
 		DA152ECC2CE106CF00C41E0C /* KeyConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyConstants.swift; sourceTree = "<group>"; };
+		DA2B89112CE61557003052F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DA3B95BA2CDFF9C100C1AC8E /* PokemonTCGScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonTCGScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3B95BD2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTCGScannerApp.swift; sourceTree = "<group>"; };
 		DA3B95BF2CDFF9C100C1AC8E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -59,6 +62,8 @@
 		DA3B95E72CE02BB200C1AC8E /* VisionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionModel.swift; sourceTree = "<group>"; };
 		DA3B95E92CE0326C00C1AC8E /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		DA5EEC852CE0C83900BE863C /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		DA901D9C2CE64134009235FD /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
+		DA901D9E2CE643E8009235FD /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		DA9C3AD52CE16D7C009C7621 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		DA9C3AD72CE16DD7009C7621 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 		DAD26AB22CE279B2004942C8 /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 		DA3B95BC2CDFF9C100C1AC8E /* PokemonTCGScanner */ = {
 			isa = PBXGroup;
 			children = (
+				DA2B89112CE61557003052F1 /* Info.plist */,
 				DA3B95BD2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift */,
 				DA152EC92CE105F200C41E0C /* Resources */,
 				DA3B95CE2CDFFDC400C1AC8E /* ViewModel */,
@@ -156,6 +162,7 @@
 				DA3B95DF2CE0190E00C1AC8E /* SetCardsView.swift */,
 				DA5EEC852CE0C83900BE863C /* CardDetailView.swift */,
 				DA9C3AD52CE16D7C009C7621 /* CollectionView.swift */,
+				DA901D9C2CE64134009235FD /* LoadingScreenView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -193,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				DAD26AB22CE279B2004942C8 /* RemoteImageView.swift */,
+				DA901D9E2CE643E8009235FD /* LoadingIndicatorView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -285,10 +293,12 @@
 				DA3B95EA2CE0326C00C1AC8E /* ScanView.swift in Sources */,
 				DA3B95D72CE0086B00C1AC8E /* BrowseViewModel.swift in Sources */,
 				DA3B95D52CE0066B00C1AC8E /* ApiModel.swift in Sources */,
+				DA901D9D2CE64134009235FD /* LoadingScreenView.swift in Sources */,
 				DA3B95E02CE0190E00C1AC8E /* SetCardsView.swift in Sources */,
 				DA3B95E82CE02BB200C1AC8E /* VisionModel.swift in Sources */,
 				DA152EC62CE0D99A00C41E0C /* CameraViewController.swift in Sources */,
 				DA3B95E42CE01F8C00C1AC8E /* CardModel.swift in Sources */,
+				DA901D9F2CE643E8009235FD /* LoadingIndicatorView.swift in Sources */,
 				DA9C3AD82CE16DD7009C7621 /* CollectionViewModel.swift in Sources */,
 				DA3B95E62CE026BF00C1AC8E /* URLSessionExtension.swift in Sources */,
 				DA5EEC862CE0C83900BE863C /* CardDetailView.swift in Sources */,
@@ -430,10 +440,10 @@
 				DEVELOPMENT_TEAM = V6GZ84ML39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PokemonTCGScanner/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Used for scanning the user's TCG cards";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -462,10 +472,10 @@
 				DEVELOPMENT_TEAM = V6GZ84ML39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PokemonTCGScanner/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Used for scanning the user's TCG cards";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;

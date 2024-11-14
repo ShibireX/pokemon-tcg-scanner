@@ -8,19 +8,9 @@
 import SwiftUI
 import AVFoundation
 
-/*
- 
- Logic:
- 
- 1. Get the XX/YY string
- 2. Fetch all cards that correspond to the number in the particular set with that number of printedTotal (e.g. https://api.pokemontcg.io/v2/cards?q=set.printedTotal:198%20number:41)
- 3. If more than one result, compare with fuzzy string matching of the entire recognized text from the scan against the resulting cards, and choose the best candidate
- 
- */
-
 struct ScanView: View {
     
-    @ObservedObject var model: ScanViewModel = ScanViewModel()
+    @StateObject var model: ScanViewModel = ScanViewModel()
 
     @State var shouldCapturePhoto: Bool = false
     @State var capturedPhoto: UIImage?
@@ -31,6 +21,7 @@ struct ScanView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
+                Spacer()
                 HStack {
                     Spacer()
                     VStack {
@@ -55,12 +46,15 @@ struct ScanView: View {
                 .padding(.bottom, 20)
                 .offset(y: 10)
                                 
-                CameraFrameView(shouldCapturePhoto: $shouldCapturePhoto, capturedImage: $capturedPhoto, showHint: $showHint)
+                CameraFrameView(model: model, shouldCapturePhoto: $shouldCapturePhoto, capturedImage: $capturedPhoto, showHint: $showHint)
                 Spacer()
                 
                 ZStack(alignment: .bottomTrailing) {
                     Button {
                         shouldCapturePhoto = true
+                        Task { @MainActor in
+                            model.isLoading = true
+                        }
                     } label: {
                         Image(systemName: "camera.aperture")
                             .font(.system(size: 70, weight: .light))
@@ -102,15 +96,17 @@ struct ScanView: View {
             .onReceive(model.$identifiedCard) { card in
                 if card != nil {
                     showCardDetailView = true
-                    self.capturedPhoto = nil
                     shouldCapturePhoto = false
+                    capturedPhoto = nil
                 }
             }
             .navigationDestination(isPresented: $showCardDetailView) {
                 if let card = model.identifiedCard {
                     CardDetailView(card: card)
                         .onDisappear {
-                            model.identifiedCard = nil
+                            Task { @MainActor in
+                                model.identifiedCard = nil
+                            }
                         }
                 }
             }
@@ -126,6 +122,8 @@ struct ScanView: View {
     
     
     struct CameraFrameView: View {
+        @StateObject var model: ScanViewModel = ScanViewModel()
+
         @Binding var shouldCapturePhoto: Bool
         @Binding var capturedImage: UIImage?
         @Binding var showHint: Bool
@@ -167,6 +165,10 @@ struct ScanView: View {
                                         .transition(.scale.combined(with: .opacity))
                                 }
                                 
+                                if model.isLoading {
+                                    ProgressView().controlSize(.large).tint(.white)
+                                }
+                                
                             }
                         }
                     )
@@ -174,6 +176,8 @@ struct ScanView: View {
             }
             .onAppear {
                 checkCameraPermission()
+                capturedImage = nil
+                shouldCapturePhoto = false
             }
             .alert(isPresented: $showAlert) {
                 Alert(

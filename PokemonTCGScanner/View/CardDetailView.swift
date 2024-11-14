@@ -160,7 +160,14 @@ struct CardDetailView: View {
                     
                     Button {
                         if let index = model.cards.firstIndex(where: { $0.id == card.id }) {
-                            model.cards.remove(at: index)
+                            if model.cards[index].owned != nil {
+                                print("1")
+                                model.cards[index].owned! -= 1
+                                if model.cards[index].owned == 0 {
+                                    print("2")
+                                    model.cards.remove(at: index)
+                                }
+                            }
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 18)
@@ -170,14 +177,22 @@ struct CardDetailView: View {
                             .font(.system(size: 18, weight: .medium))
                     }
                     
-                    Text(model.cards.contains(card) ? "1" : "0")
+                    Text(String(model.cards.first(where: { $0.id == card.id })?.owned ?? 0))
                         .font(.system(size: 18, weight: .medium))
                         .monospacedDigit()
                         .frame(width: 40)
                     
                     Button {
-                        if !model.cards.contains(card) {
-                            model.addCard(card)
+                        if !model.cards.contains(where: { $0.id == card.id }) {
+                            model.cards.append(card)
+                        }
+                        
+                        if let index = model.cards.firstIndex(where: { $0.id == card.id }) {
+                            if model.cards[index].owned != nil {
+                                model.cards[index].owned! += 1
+                            } else {
+                                model.cards[index].owned = 1
+                            }
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 18)
@@ -196,5 +211,5 @@ struct CardDetailView: View {
 }
 
 #Preview {
-    CardDetailView(card: Card(id: "0", name: "Venusaur EX", images: Card.SetImages(small: URL(string: "https://images.pokemontcg.io/xy1/1.png")!, large: URL(string: "https://images.pokemontcg.io/xy1/1_hires.png")!), cardmarket: Card.CardMarket(url: URL(string: "example.com"), prices: Card.CardMarket.CardPrices(lowPrice: 2.42, averageSellPrice: 10.24, trendPrice: 20.41)), tcgplayer: Card.TcgPlayer(url: URL(string: "example.com"))))
+    CardDetailView(card: Card(id: "0", name: "Venusaur EX", images: Card.SetImages(small: URL(string: "https://images.pokemontcg.io/xy1/1.png")!, large: URL(string: "https://images.pokemontcg.io/xy1/1_hires.png")!), cardmarket: Card.CardMarket(url: URL(string: "example.com"), prices: Card.CardMarket.CardPrices(lowPrice: 2.42, averageSellPrice: 10.24, trendPrice: 20.41)), tcgplayer: Card.TcgPlayer(url: URL(string: "example.com")), owned: 1))
 }
