@@ -34,7 +34,7 @@ struct CollectionView: View {
                     ScrollView {
                         LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
                             
-                            Section(header:                             CollectionTypeHeader(model: model)) {
+                            Section(header: CollectionTypeHeader(model: model)) {
                                 LazyVGrid(columns: gridColumns, spacing: 0) {
                                     ForEach(sortedCards, id: \.id) { card in
                                         SetCardsView.CardView(card: card)
@@ -76,7 +76,7 @@ struct CollectionView: View {
                 HStack {
                     HStack(spacing: 4) {
                         Image(systemName: "menucard.fill")
-                        Text(String(model.cards.count))
+                        Text(sumCardCounts())
                     }
                     HStack(spacing: 2) {
                         Image(systemName: "dollarsign")
@@ -93,11 +93,22 @@ struct CollectionView: View {
             var value: Float = 0
             
             for card in model.cards {
-                value += card.cardmarket?.prices.trendPrice ?? 0
+                value += (card.cardmarket?.prices.trendPrice ?? 0) * Float(card.owned ?? 0)
             }
             
             return String(format: "%.2f", value)
         }
+        
+        func sumCardCounts() -> String {
+            var count: Int = 0
+            
+            for card in model.cards {
+                count += card.owned ?? 0
+            }
+            
+            return String(count)
+        }
+
         
     }
     
