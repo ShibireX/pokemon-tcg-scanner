@@ -22,14 +22,22 @@ class CollectionViewModel: ObservableObject {
         }
     }
     
+    @Published var wishList: [Card] = [] {
+        didSet {
+            saveWishList()
+        }
+    }
+    
     private var ownedValues: [String: Int] = [:]
     private let fileName = "ownedValues.json"
+    private let wishListFileName = "wishList.json"
     
     init() {
         loadOwnedValues()
         Task {
             try? await fetchAndMergeCards()
         }
+        loadWishlist()
     }
     
     init(cards: [Card]) {
@@ -39,6 +47,18 @@ class CollectionViewModel: ObservableObject {
     
     func addCard(_ card: Card) {
         self.cards.append(card)
+    }
+    
+    func removeCard(_ card: Card) {
+        self.cards.removeAll(where: { $0.id == card.id })
+    }
+    
+    func addToWishList(_ card: Card) {
+        self.wishList.append(card)
+    }
+    
+    func removeFromWishList(_ card: Card) {
+        self.wishList.removeAll(where: { $0.id == card.id })
     }
     
     private func saveOwnedValues() {
@@ -54,6 +74,31 @@ class CollectionViewModel: ObservableObject {
         }
     }
     
+    private func saveWishList() {
+        let cardIds = self.wishList.map { $0.id }
+                
+        if let data = try? JSONEncoder().encode(cardIds) {
+            let url = getWishlistURL()
+            do {
+                try data.write(to: url)
+            } catch {
+                print("Failed to save wishlist cards: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func loadWishlist() {
+            let url = getWishlistURL()
+            guard let data = try? Data(contentsOf: url) else { return }
+            
+            if let cardIds = try? JSONDecoder().decode([String].self, from: data) {
+                Task {
+                    let fetchedCards = try await fetchCards(cardIds: cardIds)
+                    self.wishList = fetchedCards
+                }
+            }
+        }
+    
     private func loadOwnedValues() {
         let url = getFileURL()
         guard let data = try? Data(contentsOf: url) else { return }
@@ -66,6 +111,11 @@ class CollectionViewModel: ObservableObject {
     private func getFileURL() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0].appendingPathComponent(fileName)
+    }
+    
+    private func getWishlistURL() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0].appendingPathComponent(wishListFileName)
     }
     
     func getCardIDs() -> [String] {

@@ -103,9 +103,22 @@ struct CardDetailView: View {
                     }
                     .font(.system(size: 22, weight: .medium))
                     
-                    if let tcgplayerUrl = card.tcgplayer?.url {
-                        TcgPlayerButton(url: tcgplayerUrl)
+                    VStack(spacing: 10) {
+                        Text("Shop")
+                            .font(.system(size: 18, weight: .semibold))
+                        
+                        HStack(spacing: 10) {
+                            if let tcgplayerUrl = card.tcgplayer?.url {
+                                ExternalShopButton(url: tcgplayerUrl, shop: .tcgplayer)
+                            }
+                            if let cardmarketUrl = card.cardmarket?.url {
+                                ExternalShopButton(url: cardmarketUrl, shop: .cardmarket)
+                            }
+                            WishListButton(card: card)
+                        }
+                            
                     }
+                    
                 }
             }
                         
@@ -120,29 +133,88 @@ struct CardDetailView: View {
         .background(Color.mainColor)
     }
     
-    struct TcgPlayerButton: View {
+    struct ExternalShopButton: View {
         let url: URL
+        let shop: Shop
+        
+        enum Shop {
+            case tcgplayer
+            case cardmarket
+        }
         
         var body: some View {
-            VStack(spacing: 10) {
-                Text("Buy")
-                    .font(.system(size: 18, weight: .semibold))
-                
-                Button {
-                    UIApplication.shared.open(url)
-                } label: {
-                    RoundedRectangle(cornerRadius: 18)
-                        .foregroundStyle(.white.opacity(0.4).blendMode(.overlay))
-                        .frame(width: 110, height: 55)
-                        .padding(.horizontal, 30)
-                        .overlay(
-                            Image("tcgPlayerLogo")
+            Button {
+                UIApplication.shared.open(url)
+            } label: {
+                RoundedRectangle(cornerRadius: 18)
+                    .foregroundStyle(.white.opacity(0.4).blendMode(.overlay))
+                    .frame(width: 95, height: 55)
+                    .overlay(
+                        ZStack {
+                            Image(shop == .tcgplayer ? "tcgPlayerLogo" : "cardMarketLogo")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 30)
-                        )
-                }
+                                .frame(height: 25)
+                                
+                            if shop == .cardmarket {
+                                Color.white
+                                    .mask {
+                                        Image("cardMarketLogo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 25)
+                                    }
+                            }
+                        }
+                    )
             }
+        }
+    }
+    
+    struct WishListButton: View {
+        
+        @StateObject var model = CollectionViewModel.shared
+        let card: Card
+        
+        var body: some View {
+            Button {
+                if !model.wishList.contains(card) {
+                    model.addToWishList(card)
+                } else {
+                    model.removeFromWishList(card)
+                }
+            } label: {
+                RoundedRectangle(cornerRadius: 18)
+                    .foregroundStyle(.white.opacity(0.4).blendMode(.overlay))
+                    .frame(width: 65, height: 55)
+                    .overlay(
+                        ZStack(alignment: .bottomTrailing) {
+                            Image(systemName: "gift.fill")
+                                .font(.system(size: 24))
+                            if model.wishList.contains(card) {
+                                Circle()
+                                    .frame(width: 15, height: 15)
+                                    .overlay(
+                                        Image(systemName: "checkmark")
+                                            .foregroundStyle(Color.mainColor)
+                                            .font(.system(size: 10, weight: .bold))
+                                    )
+                                    .offset(x: 2, y: 3)
+                            } else {
+                                Circle()
+                                    .frame(width: 15, height: 15)
+                                    .overlay(
+                                        Image(systemName: "plus")
+                                            .foregroundStyle(Color.mainColor)
+                                            .font(.system(size: 12, weight: .bold))
+                                    )
+                                    .offset(x: 2, y: 3)
+                            }
+                        }
+                    )
+            }
+            .disabled(model.cards.contains(where: { $0.id == card.id }))
+            .opacity(model.cards.contains(where: { $0.id == card.id }) ? 0.4 : 1)
         }
     }
     
@@ -161,10 +233,8 @@ struct CardDetailView: View {
                     Button {
                         if let index = model.cards.firstIndex(where: { $0.id == card.id }) {
                             if model.cards[index].owned != nil {
-                                print("1")
                                 model.cards[index].owned! -= 1
                                 if model.cards[index].owned == 0 {
-                                    print("2")
                                     model.cards.remove(at: index)
                                 }
                             }
@@ -184,7 +254,11 @@ struct CardDetailView: View {
                     
                     Button {
                         if !model.cards.contains(where: { $0.id == card.id }) {
-                            model.cards.append(card)
+                            model.addCard(card)
+                            
+                            if model.wishList.contains(card) {
+                                model.removeFromWishList(card)
+                            }
                         }
                         
                         if let index = model.cards.firstIndex(where: { $0.id == card.id }) {
