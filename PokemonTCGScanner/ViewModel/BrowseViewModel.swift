@@ -43,8 +43,16 @@ class BrowseViewModel: ObservableObject {
         let request = await URLRequest.withAuth(apiPath: "https://api.pokemontcg.io/v2/cards?q=set.id:\(setId)&orderBy=number")
                 
         do {
-            let (responseBody, _) = try await URLSession.shared.json(for: request, responseFormat: CardBody.self)
+            let cachedResponseBody = try? URLCache.shared.json(for: request, responseFormat: CardBody.self)
+            if let cachedResponseBody = cachedResponseBody {
+                Task { @MainActor in
+                    if let index = self.sets.firstIndex(where: { $0.id == setId }) {
+                        self.sets[index].cards = cachedResponseBody.data
+                    }
+                }
+            }
             
+            let (responseBody, _) = try await URLSession.shared.json(for: request, responseFormat: CardBody.self)
             Task { @MainActor in
                 if let index = self.sets.firstIndex(where: { $0.id == setId }) {
                     self.sets[index].cards = responseBody.data

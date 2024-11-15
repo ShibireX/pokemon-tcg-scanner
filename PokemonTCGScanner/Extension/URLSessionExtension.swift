@@ -20,6 +20,7 @@ extension URLSession {
                         
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data)
+                URLCache.shared.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
                 return (jsonObject, response)
             } catch {
                 throw JSONError.failedToDecode(data: data, response: response)
@@ -45,6 +46,7 @@ extension URLSession {
             let decoder = JSONDecoder()
             do {
                 let jsonObject = try decoder.decode(T.self, from: data)
+                URLCache.shared.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
                 return (jsonObject, response)
             } catch {
                 throw JSONError.failedToDecode(data: data, response: response)

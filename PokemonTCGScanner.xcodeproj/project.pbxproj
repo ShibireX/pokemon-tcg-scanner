@@ -11,6 +11,7 @@
 		DA152EC82CE0DF6500C41E0C /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA152EC72CE0DF6500C41E0C /* ScanViewModel.swift */; };
 		DA152ECB2CE1063C00C41E0C /* apiKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = DA152ECA2CE1063C00C41E0C /* apiKeys.json */; settings = {ASSET_TAGS = (APIKeys, ); }; };
 		DA152ECD2CE106CF00C41E0C /* KeyConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA152ECC2CE106CF00C41E0C /* KeyConstants.swift */; };
+		DA2050D12CE71BFF007F2D00 /* URLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2050D02CE71BFF007F2D00 /* URLCache.swift */; };
 		DA3B95BE2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3B95BD2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift */; };
 		DA3B95C02CDFF9C100C1AC8E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3B95BF2CDFF9C100C1AC8E /* MainView.swift */; };
 		DA3B95C22CDFF9C200C1AC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA3B95C12CDFF9C200C1AC8E /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		DA152EC72CE0DF6500C41E0C /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		DA152ECA2CE1063C00C41E0C /* apiKeys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = apiKeys.json; sourceTree = "<group>"; };
 		DA152ECC2CE106CF00C41E0C /* KeyConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyConstants.swift; sourceTree = "<group>"; };
+		DA2050D02CE71BFF007F2D00 /* URLCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCache.swift; sourceTree = "<group>"; };
 		DA2B89112CE61557003052F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DA3B95BA2CDFF9C100C1AC8E /* PokemonTCGScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonTCGScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3B95BD2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTCGScannerApp.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				DA3B95D22CE0009D00C1AC8E /* ColorExtension.swift */,
 				DA3B95E52CE026BF00C1AC8E /* URLSessionExtension.swift */,
 				DAD26AB42CE27A1C004942C8 /* UIImageExtension.swift */,
+				DA2050D02CE71BFF007F2D00 /* URLCache.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				DA3B95BE2CDFF9C100C1AC8E /* PokemonTCGScannerApp.swift in Sources */,
 				DA3B95D92CE008B000C1AC8E /* SetModel.swift in Sources */,
 				DA3B95DB2CE00B0100C1AC8E /* PreviewMocks.swift in Sources */,
+				DA2050D12CE71BFF007F2D00 /* URLCache.swift in Sources */,
 				DA3B95D32CE0009D00C1AC8E /* ColorExtension.swift in Sources */,
 				DA3B95EA2CE0326C00C1AC8E /* ScanView.swift in Sources */,
 				DA3B95D72CE0086B00C1AC8E /* BrowseViewModel.swift in Sources */,
